@@ -1,4 +1,4 @@
-# Predicting Weekly Hotel Cancellations with an LSTM Network: Part 3
+# Part 3: Predicting Weekly Hotel Cancellations with an LSTM Network
 
 *This is Part 3 of a three part study on predicting hotel cancellations with machine learning.*
 
