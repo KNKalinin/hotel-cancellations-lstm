@@ -1,5 +1,11 @@
 # Predicting Weekly Hotel Cancellations with an LSTM Network: Part 3
 
+*This is Part 3 of a three part study on predicting hotel cancellations with machine learning.*
+
+*[- Part 1: Predicting Hotel Cancellations with Support Vector Machines and ARIMA](www.michael-grogan.com/hotel-cancellations)*
+
+*[- Part 2: Predicting Hotel Cancellations with a Keras Neural Network](www.michael-grogan.com/hotel-cancellations-neuralnetwork)*
+
 As I discussed in a [previous post](https://www.michael-grogan.com/hotel-cancellations/), hotel cancellations can be problematic for businesses in the industry - cancellations lead to lost revenue, and this can also cause difficulty in coordinating bookings and adjusting revenue management practices.
 
 Aside from analyzing which customers are less likely to cancel their bookings and allow hotels to amend their marketing strategy accordingly, it can also be useful to predict fluctuations in cancellations on a week-by-week basis in order for hotel chains to allocate capacity accordingly.
