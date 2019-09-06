@@ -1,4 +1,4 @@
-# Predicting Weekly Hotel Cancellations with an LSTM Network
+# Predicting Weekly Hotel Cancellations with an LSTM Network: Part 3
 
 As I discussed in a [previous post](https://www.michael-grogan.com/hotel-cancellations/), hotel cancellations can be problematic for businesses in the industry - cancellations lead to lost revenue, and this can also cause difficulty in coordinating bookings and adjusting revenue management practices.
 
