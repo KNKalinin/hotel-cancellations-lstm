@@ -2,9 +2,9 @@
 
 *This is Part 3 of a three part study on predicting hotel cancellations with machine learning.*
 
-*[- Part 1: Predicting Hotel Cancellations with Support Vector Machines and ARIMA](mgcodesandstats.github.io/hotel-cancellations)*
+*[- Part 1: Predicting Hotel Cancellations with Support Vector Machines and ARIMA](https://michael-grogan.com/hotel-cancellations)*
 
-*[- Part 2: Predicting Hotel Cancellations with a Keras Neural Network](mgcodesandstats.github.io/hotel-cancellations-neuralnetwork)*
+*[- Part 2: Predicting Hotel Cancellations with a Keras Neural Network](https://michael-grogan.com/hotel-cancellations-neuralnetwork)*
 
 As I discussed in a [previous post](https://www.michael-grogan.com/hotel-cancellations/), hotel cancellations can be problematic for businesses in the industry - cancellations lead to lost revenue, and this can also cause difficulty in coordinating bookings and adjusting revenue management practices.
 
