@@ -6,6 +6,8 @@
 
 *[- Part 2: Predicting Hotel Cancellations with a Keras Neural Network](https://michael-grogan.com/hotel-cancellations-neuralnetwork)*
 
+*[- Part 4: Displaying AUC Results with Django Web App](https://www.michael-grogan.com/hotel-django/)*
+
 As I discussed in a [previous post](https://www.michael-grogan.com/hotel-cancellations/), hotel cancellations can be problematic for businesses in the industry - cancellations lead to lost revenue, and this can also cause difficulty in coordinating bookings and adjusting revenue management practices.
 
 Aside from analyzing which customers are less likely to cancel their bookings and allow hotels to amend their marketing strategy accordingly, it can also be useful to predict fluctuations in cancellations on a week-by-week basis in order for hotel chains to allocate capacity accordingly.
