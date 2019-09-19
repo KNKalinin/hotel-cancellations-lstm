@@ -1,3 +1,9 @@
+[Home](https://mgcodesandstats.github.io/) |
+[Portfolio](https://mgcodesandstats.github.io/portfolio/) |
+[Terms and Conditions](https://mgcodesandstats.github.io/terms/) |
+[E-mail me](mailto:contact@michaeljgrogan.com) |
+[LinkedIn](https://www.linkedin.com/in/michaeljgrogan/)
+
 # Part 3: Predicting Weekly Hotel Cancellations with an LSTM Network
 
 *This is Part 3 of a four part project on predicting hotel cancellations with machine learning.*
