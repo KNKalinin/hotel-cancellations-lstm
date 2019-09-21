@@ -24,7 +24,7 @@ Here is the generated ARIMA model:
 
 ![arima-model.png](arima-model.png)
 
-The following is a plot of the predicted versus actual cancellation values:
+Here is a plot of the predicted versus actual cancellation values:
 
 ![test-vs-predicted.png](test-vs-predicted.png)
 
