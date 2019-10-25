@@ -6,7 +6,7 @@
 
 # Part 3: Predicting Weekly Hotel Cancellations with an LSTM Network
 
-*This is Part 3 of a four part project on predicting hotel cancellations with machine learning.*
+*This is Part 3 of a three part project on predicting hotel cancellations with machine learning.*
 
 *[- Part 1: Predicting Hotel Cancellations with Support Vector Machines and ARIMA](https://michael-grogan.com/hotel-cancellations)*
 
