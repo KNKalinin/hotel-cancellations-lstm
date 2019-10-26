@@ -16,23 +16,15 @@ As I discussed in a [previous post](https://www.michael-grogan.com/hotel-cancell
 
 Aside from analyzing which customers are less likely to cancel their bookings and allow hotels to amend their marketing strategy accordingly, it can also be useful to predict fluctuations in cancellations on a week-by-week basis in order for hotel chains to allocate capacity accordingly.
 
-Previously, this was done using an ARIMA model to forecast cancellations for two separate hotel chains in Portugal. The ARIMA model achieved a mean directional accuracy of **80%**.
-
-Here is the generated ARIMA model:
-
-![arima-model.png](arima-model.png)
-
-The following is a plot of the predicted versus actual cancellation values:
-
-![test-vs-predicted.png](test-vs-predicted.png)
-
-80% mean directional accuracy is reasonably good, but can an LSTM (long-short term memory network) do better?
-
 ## LSTM (Long-Short Term Memory Network)
 
 LSTMs are sequential neural networks that assume dependence between the observations in a particular series. As such, they have increasingly come to be used for time series forecasting purposes. The Jupyter notebooks with full code, plots, and results can be found [here](https://github.com/MGCodesandStats/hotel-cancellations-lstm).
 
-In the last example, the cancellation data was already sorted into weekly values by pandas. Now, an LSTM will be used in place of ARIMA to predict cancellations for the test set, and ultimately see if an improvement in mean directional accuracy can be obtained.
+In the last example, the cancellation data was already sorted into weekly values by pandas. The total weekly cancellations were sorted as follows:
+
+![cancellation-weeks](cancellation-weeks.png)
+
+Now, an LSTM is used to predict cancellations for both the validation and test sets, and ultimately gauge model performance in terms of mean directional accuracy and root mean square error (RMSE).
 
 Let’s begin the analysis for the H1 dataset. A dataset matrix is created and the data is scaled.
 
