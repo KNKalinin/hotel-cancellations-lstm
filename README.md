@@ -326,3 +326,6 @@ dtype: float32
 Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**:
 
 ## H2 results
+
+
+## Comparison with ARIMA
