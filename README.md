@@ -374,6 +374,8 @@ The same procedure was carried out on the H2 dataset (cancellation data for a se
 **RMSE**
 
 ```
+# mean cancellations per week for this hotel was 280 across the test set
+
 >>> mse = mean_squared_error(actualpd, ynewpd)
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
