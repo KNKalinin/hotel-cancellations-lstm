@@ -57,7 +57,20 @@ array([[0.11782946],
        [0.20465116],
        [0.32093023],
        [0.46511628],
+       [0.21395349],
+       [0.44496124],
+       [0.63100775],
+       [0.26356589],
+       [0.29612403],
+       [0.37984496],
        ...
+       [0.51472868],
+       [0.40620155],
+       [0.31782946],
+       [0.6372093 ],
+       [0.66046512],
+       [0.61395349],
+       [0.84806202],
        [0.79224806],
        [0.56434109],
        [1.        ]])
@@ -81,18 +94,41 @@ previous = 5
 X_train, Y_train = create_dataset(train, previous)
 X_val, Y_val = create_dataset(val, previous)
 ```
+When the *previous* parameter is set to this, this essentially means that the value at time *t* (Y_train for the training data), is being predicted using the values *t-1*, *t-2*, *t-3*, *t-4*, and *t-5* (all under X_train).
 
-After 150 epochs are run, a loss of 0.0328 is yielded:
+Here is a sample of the *Y_train* array:
 
 ```
-Epoch 147/150
-89/89 - 0s - loss: 0.0329
-Epoch 148/150
-89/89 - 0s - loss: 0.0326
-Epoch 149/150
-89/89 - 0s - loss: 0.0327
-Epoch 150/150
-89/89 - 0s - loss: 0.0328
+array([0.44496124, 0.63100775, 0.26356589, 0.29612403, 0.37984496,
+       0.48062016, 0.63255814, 0.60930233, 0.46976744, 0.57364341,
+       0.64031008, 0.2       , 0.27596899, 0.07131783, 0.09302326,
+       ...
+       0.4248062 , 0.35968992, 0.20310078, 0.19689922])
+```
+
+Here is a sample of the *X_train* array:
+
+```
+array([[0.11782946, 0.20465116, 0.32093023, 0.46511628, 0.21395349],
+       [0.20465116, 0.32093023, 0.46511628, 0.21395349, 0.44496124],
+       [0.32093023, 0.46511628, 0.21395349, 0.44496124, 0.63100775],
+       ...
+       [0.32868217, 0.26976744, 0.4248062 , 0.35968992, 0.20310078]])
+```       
+
+150 epochs are run:
+
+```
+# reshape input to be [samples, time steps, features]
+X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+X_val = np.reshape(X_val, (X_val.shape[0], 1, X_val.shape[1]))
+
+# Generate LSTM network
+model = tf.keras.Sequential()
+model.add(LSTM(4, input_shape=(1, previous)))
+model.add(Dense(1))
+model.compile(loss='mean_squared_error', optimizer='adam')
+model.fit(X_train, Y_train, epochs=150, batch_size=1, verbose=2)
 ```
 
 ## Predictions and Accuracy Readings
