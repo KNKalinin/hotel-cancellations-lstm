@@ -406,3 +406,12 @@ Again, a plot for the predicted vs actual cancellations per week is generated:
 | MDA      | 0.86       | 0.8       |
 | RMSE   | 57.95        | 66.82        |
 | MFE   | -12.72        | -53.43        |
+
+
+### H2 Results
+
+| Reading      | ARIMA | LSTM |
+| ----------- | ----------- | ----------- |
+| MDA      | 0.86       | 0.8       |
+| RMSE   | 274.07        | 107.74        |
+| MFE   | 156.32        | 31.14       |
