@@ -161,7 +161,7 @@ Epoch 150/150
 74/74 - 0s - loss: 0.0321
 ```
 
-## Predictions and Accuracy Readings
+## Training and Validation Predictions
 
 Now, let’s generate some predictions.
 
@@ -239,25 +239,15 @@ import numpy as np
 
 def mda(actual: np.ndarray, predicted: np.ndarray):
     """ Mean Directional Accuracy """
-return np.mean((np.sign(actual[1:] - actual[:-1]) == np.sign(predicted[1:] - predicted[:-1])).astype(int))
+    return np.mean((np.sign(actual[1:] - actual[:-1]) == np.sign(predicted[1:] - predicted[:-1])).astype(int))
 ```
 
 The mean directional accuracy is now calculated:
 
 ```
->>> mda(Y_test, predictions)
-0.9
+>>> mda(Y_val, predictions)
+0.8571428571428571
 ```
 
-An MDA of **90%** is a significant improvement on the 80% that was previously yielded by the ARIMA model. Let’s see how LSTM performs on the H2 dataset.
+An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
-![h2predictions.png](h2predictions.png)
-
-```
->>> mda(Y_test, predictions)
-0.9
-```
-
-An MDA of 90% is also yielded on the H2 dataset.
-
-In this regard, we can see that LSTM appears to have been slightly more adept than ARIMA in modelling the volatility in hotel cancellations on a week-to-week basis.
