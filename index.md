@@ -22,7 +22,7 @@ LSTMs are sequential neural networks that assume dependence between the observat
 
 In the last example, the cancellation data was already sorted into weekly values by pandas. The total weekly cancellations were sorted as follows:
 
-![cancellation-weeks](cancellation-weeks.png)
+![cancellation-weeks.png](cancellation-weeks.png)
 
 Now, an LSTM is used to predict cancellations for both the validation and test sets, and ultimately gauge model performance in terms of mean directional accuracy and root mean square error (RMSE).
 
