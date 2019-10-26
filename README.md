@@ -398,3 +398,9 @@ Again, a plot for the predicted vs actual cancellations per week is generated:
 ![predicted-vs-test-2.png](predicted-vs-test-2.png)
 
 ## Comparison with ARIMA
+
+| Reading      | H1 | H2 |
+| ----------- | ----------- | ----------- |
+| Header      | Title       | Title       |
+| Paragraph   | Text        | Text        |
+| Paragraph   | Text        | Text        |
