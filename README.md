@@ -391,4 +391,8 @@ RMSE: 107.746092
 31.145895385742186
 ```
 
+Again, a plot for the predicted vs actual cancellations per week is generated:
+
+![predicted-vs-test-2.png](predicted-vs-test-2.png)
+
 ## Comparison with ARIMA
