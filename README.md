@@ -253,3 +253,20 @@ The mean directional accuracy is now calculated:
 
 An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
+As seen above, a validation score of **35.65** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **109**.
+
+## Testing on unseen (test) data
+
+Now that the model has been trained, the next step is to test the predictions of the model on unseen (or test data).
+
+As previously explained, the value at time *t* is being predicted by LSTM using the values *t-1*, *t-2*, *t-3*, *t-4*, and *t-5*.
+
+The last 10 weekly cancellation values in the series are predicted in this case.
+
+```
+actual = np.array([[161,131,139,150,157,173,140,182,143,100]])
+```
+
+
+
+## H2 results
