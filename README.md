@@ -437,3 +437,13 @@ It can be observed that the second time series is significantly more volatile th
 In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy when modelling the smoother trend for the H1 series.
 
 Therefore, this shows that LSTM is not necessarily a better model than ARIMA simply because it is a machine learning model. Rather, ARIMA and LSTM have been shown to yield predictive accuracy under different circumstances - and in this case LSTM has been more adept at modelling the H2 (more volatile) time series.
+
+## Conclusion
+
+The above examples have illustrated:
+
+- How to construct an LSTM model
+- Methods to gauge error and accuracy for LSTM model predictions
+- Comparison of LSTM model performance vs ARIMA
+
+Many thanks for your time!
