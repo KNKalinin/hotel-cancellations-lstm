@@ -323,6 +323,6 @@ The array is converted back to the original value format:
 dtype: float32
 ```
 
-Here is the calculated MDA, RMSE, and MFE (mean forecast error):
+Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**:
 
 ## H2 results
