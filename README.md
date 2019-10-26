@@ -329,6 +329,7 @@ Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
 
 ```
 >>> mda(actualpd, ynewpd)
+
 0.8
 ```
 
@@ -362,6 +363,32 @@ As we can see, the MDA has dropped slightly, and the RMSE has increased to 66. B
 
 The same procedure was carried out on the H2 dataset (cancellation data for a separate hotel in Portugal). Here are the results when comparing the predictions to the test set:
 
-1
+**MDA**
+
+```
+>>> mda(actualpd, ynewpd)
+
+0.8
+```
+
+**RMSE**
+
+```
+>>> mse = mean_squared_error(actualpd, ynewpd)
+>>> rmse = sqrt(mse)
+>>> print('RMSE: %f' % rmse)
+
+RMSE: 107.746092
+```
+
+**MFE**
+
+```
+>>> forecast_error = (ynewpd-actualpd)
+>>> mean_forecast_error = np.mean(forecast_error)
+>>> mean_forecast_error
+
+31.145895385742186
+```
 
 ## Comparison with ARIMA
