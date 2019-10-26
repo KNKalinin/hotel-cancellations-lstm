@@ -134,6 +134,33 @@ model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(X_train, Y_train, epochs=150, batch_size=1, verbose=2)
 ```
 
+Here are some sample results:
+
+```
+Train on 74 samples
+Epoch 1/150
+74/74 - 1s - loss: 0.2013
+Epoch 2/150
+74/74 - 0s - loss: 0.1040
+Epoch 3/150
+74/74 - 0s - loss: 0.0571
+Epoch 4/150
+74/74 - 0s - loss: 0.0446
+Epoch 5/150
+74/74 - 0s - loss: 0.0426
+...
+Epoch 146/150
+74/74 - 0s - loss: 0.0324
+Epoch 147/150
+74/74 - 0s - loss: 0.0324
+Epoch 148/150
+74/74 - 0s - loss: 0.0330
+Epoch 149/150
+74/74 - 0s - loss: 0.0323
+Epoch 150/150
+74/74 - 0s - loss: 0.0321
+```
+
 ## Predictions and Accuracy Readings
 
 Now, let’s generate some predictions.
@@ -141,7 +168,7 @@ Now, let’s generate some predictions.
 ```
 # Generate predictions
 trainpred = model.predict(X_train)
-testpred = model.predict(X_test)
+valpred = model.predict(X_val)
 ```
 
 Here is a sample of training and test predictions:
@@ -151,29 +178,34 @@ Here is a sample of training and test predictions:
 ```
 >>> trainpred
 
-array([[0.24308765],
-       [0.29334682],
-       [0.34213442],
-       [0.34916055],
-       [0.36314833],
-       [0.33036196],
-       [0.34789738],
-       [0.3199189 ],
-       [0.39131305]
+array([[0.38761035],
+       [0.37727284],
+       [0.38431337],
 ...
+       [0.27506492],
+       [0.33542088],
+       [0.29014656]], dtype=float32)
 ```
 
 **Test Predictions**
 
 ```
-array([[0.3873779 ],
-       [0.41535857],
-       [0.47876447],
-       [0.38130918],
-       [0.4220309 ],
-       [0.47831023],
-       [0.36525652]
-...
+>>> valpred
+
+array([[0.26687723],
+       [0.2980349 ],
+       [0.36651152],
+       [0.4387382 ],
+       [0.45658803],
+       [0.43241972],
+       [0.40169773],
+       [0.3515324 ],
+       [0.27032438],
+       [0.39643878],
+       [0.49958646],
+       [0.5353131 ],
+       [0.532136  ],
+       [0.3223253 ]], dtype=float32)
 ```
 
 The predictions are converted back to normal values using ```scaler.inverse_transform```, and the training and test score is calculated.
@@ -189,11 +221,11 @@ testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
 print('Test Score: %.2f RMSE' % (testScore))
 ```
 
-**Training and Test Scores**
+**Training and Validation Scores**
 
 ```
-Train Score: 35.26 RMSE
-Test Score: 40.75 RMSE
+Train Score: 37.01 RMSE
+Validation Score: 35.65 RMSE
 ```
 
 Here is a plot of the predictions:
