@@ -360,5 +360,8 @@ As we can see, the MDA has dropped slightly, and the RMSE has increased to 66. B
 
 ## H2 results
 
+The same procedure was carried out on the H2 dataset (cancellation data for a separate hotel in Portugal). Here are the results when comparing the predictions to the test set:
+
+1
 
 ## Comparison with ARIMA
