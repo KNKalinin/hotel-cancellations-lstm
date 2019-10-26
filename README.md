@@ -267,6 +267,62 @@ The last 10 weekly cancellation values in the series are predicted in this case.
 actual = np.array([[161,131,139,150,157,173,140,182,143,100]])
 ```
 
+The previously built model is now used to predict each value using the previous five values in the time series:
 
+```
+# Test (unseen) predictions
+# (t) and (t-5)
+>>> XNew
+
+array([[130, 202, 117, 152, 131],
+       [202, 117, 152, 131, 161],
+       [117, 152, 131, 161, 131],
+       [152, 131, 161, 131, 139],
+       [131, 161, 131, 139, 150],
+       [161, 131, 139, 150, 157],
+       [131, 139, 150, 157, 173],
+       [139, 150, 157, 173, 140],
+       [150, 157, 173, 140, 182],
+       [157, 173, 140, 182, 143]])
+```
+
+The variables are scaled appropriately, and ```model.predict``` is invoked:
+
+```
+Xnew = scaler.fit_transform(Xnew)
+Xnew
+Xnewformat = np.reshape(Xnew, (Xnew.shape[0], 1, Xnew.shape[1]))
+ynew=model.predict(Xnewformat)
+```
+
+Here is an array of the generated predictions:
+
+```
+array([0.11751928, 0.2840012 , 0.38806236, 0.22630812, 0.22927041,
+       0.4725005 , 0.49718988, 0.62252706, 0.47404462, 0.5425472 ],
+      dtype=float32)
+```
+
+The array is converted back to the original value format:
+
+```
+>>> ynew = ynew * np.abs(maxcancel-mincancel) + np.min(tseries)
+>>> ynewpd=pd.Series(ynew)
+>>> ynewpd
+
+0     38.444008
+1     73.072250
+2     94.716972
+3     61.072090
+4     61.688248
+5    112.280106
+6    117.415497
+7    143.485626
+8    112.601280
+9    126.849823
+dtype: float32
+```
+
+Here is the calculated MDA, RMSE, and MFE (mean forecast error):
 
 ## H2 results
