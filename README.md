@@ -356,6 +356,8 @@ Here is a plot of the predicted vs actual cancellations per week:
 
 ![predicted-vs-test.png](predicted-vs-test.png)
 
+As we can see, the MDA has dropped slightly, and the RMSE has increased to 66. Based on the graph and the mean forecast error, the model has a tendency to underestimate the values for the weekly cancellations; i.e. the forecast is negatively biased.
+
 ## H2 results
 
 
