@@ -401,6 +401,6 @@ Again, a plot for the predicted vs actual cancellations per week is generated:
 
 | Reading      | H1 | H2 |
 | ----------- | ----------- | ----------- |
-| Header      | Title       | Title       |
-| Paragraph   | Text        | Text        |
-| Paragraph   | Text        | Text        |
+| MDA      | Title       | Title       |
+| RMSE   | Text        | Text        |
+| MFE   | Text        | Text        |
