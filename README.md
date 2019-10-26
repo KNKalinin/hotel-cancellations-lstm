@@ -26,7 +26,7 @@ In the last example, the cancellation data was already sorted into weekly values
 
 Now, an LSTM is used to predict cancellations for both the validation and test sets, and ultimately gauge model performance in terms of mean directional accuracy and root mean square error (RMSE).
 
-## Dataset Matrix and Model Configuration
+## Dataset Matrix Formation and Model Configuration
 
 Let’s begin the analysis for the H1 dataset. The first 100 observations from the created time series is called. Then, a dataset matrix is created and the data is scaled.
 
