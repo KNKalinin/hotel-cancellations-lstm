@@ -399,6 +399,10 @@ Again, a plot for the predicted vs actual cancellations per week is generated:
 
 ## Comparison with ARIMA
 
+As mentioned, weekly hotel cancellations were predicted using ARIMA instead of LSTM in a [previous post](https://www.michael-grogan.com/hotel-cancellations/).
+
+Here is a comparison of prediction performance across the H1 and H2 datasets for both models.
+
 ### H1 Results
 
 | Reading      | ARIMA | LSTM |
@@ -415,3 +419,21 @@ Again, a plot for the predicted vs actual cancellations per week is generated:
 | MDA      | 0.86       | 0.8       |
 | RMSE   | 274.07        | 107.74        |
 | MFE   | 156.32        | 31.14       |
+
+What is particularly interesting is that (with the exception of MDA), ARIMA shows better performance for the H1 dataset, while LSTM shows better performance for H2.
+
+Let's compare the two time series once again.
+
+**H1**
+
+![predicted-vs-test.png](predicted-vs-test.png)
+
+**H2**
+
+![predicted-vs-test-2.png](predicted-vs-test-2.png)
+
+It can be observed that the second time series is significantly more volatile than the first (there is more of a "zig-zag" pattern present).
+
+In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy when modelling the smoother trend for the H1 series.
+
+Therefore, this shows that LSTM is not necessarily a better model than ARIMA simply because it is a machine learning model. Rather, ARIMA and LSTM have been shown to yield predictive accuracy under different circumstances - and in this case LSTM has been more adept at modelling the H2 (more volatile) time series.
