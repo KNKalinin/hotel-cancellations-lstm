@@ -230,7 +230,7 @@ Validation Score: 35.65 RMSE
 
 Here is a plot of the predictions:
 
-![h1predictions.png](h1predictions.png)
+![h1predictiongraph.png](h1predictiongraph.png)
 
 The test and prediction arrays are reshaped accordingly, and the function for *mean directional accuracy* is defined:
 
