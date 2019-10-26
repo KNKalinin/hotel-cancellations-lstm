@@ -26,9 +26,11 @@ In the last example, the cancellation data was already sorted into weekly values
 
 Now, an LSTM is used to predict cancellations for both the validation and test sets, and ultimately gauge model performance in terms of mean directional accuracy and root mean square error (RMSE).
 
-Let’s begin the analysis for the H1 dataset. A dataset matrix is created and the data is scaled.
+Let’s begin the analysis for the H1 dataset. The first 100 observations from the created time series is called. Then, a dataset matrix is created and the data is scaled.
 
 ```
+df = df[:100]
+
 # Form dataset matrix
 def create_dataset(df, previous=1):
     dataX, dataY = [], []
@@ -36,7 +38,7 @@ def create_dataset(df, previous=1):
         a = df[i:(i+previous), 0]
         dataX.append(a)
         dataY.append(df[i + previous, 0])
-return np.array(dataX), np.array(dataY)
+    return np.array(dataX), np.array(dataY)
 ```
 
 The data is then normalized with MinMaxScaler in order to allow the neural network to interpret it properly:
@@ -51,17 +53,17 @@ df
 Here is a sample of the output:
 
 ```
-array([[0.14285714],
-       [0.16836735],
-       [0.34183673],
-       [0.29081633],
+array([[0.11782946],
+       [0.20465116],
+       [0.32093023],
+       [0.46511628],
        ...
-       [0.78571429],
-       [0.59183673],
-       [0.40306122]])
+       [0.79224806],
+       [0.56434109],
+       [1.        ]])
 ```
 
-The data is partitioned into training and test sets, with the *previous* parameter set to 2 - i.e. the cancellations at week *t* are being regressed against cancellations at *t-2*, and 150 epochs are used to train the model:
+The data is partitioned into training and test sets, with the *previous* parameter set to 5:
 
 ```
 import tensorflow as tf
@@ -69,26 +71,15 @@ from tensorflow.keras import layers
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import LSTM
 
-# Training and Test data partition
+# Training and Validation data partition
 train_size = int(len(df) * 0.8)
-test_size = len(df) - train_size
-train, test = df[0:train_size,:], df[train_size:len(df),:]
+val_size = len(df) - train_size
+train, val = df[0:train_size,:], df[train_size:len(df),:]
 
 # Number of previous
-previous = 2
+previous = 5
 X_train, Y_train = create_dataset(train, previous)
-X_test, Y_test = create_dataset(test, previous)
-
-# reshape input to be [samples, time steps, features]
-X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
-X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
-
-# Generate LSTM network
-model = tf.keras.Sequential()
-model.add(LSTM(4, input_shape=(1, previous)))
-model.add(Dense(1))
-model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(X_train, Y_train, epochs=150, batch_size=1, verbose=2)
+X_val, Y_val = create_dataset(val, previous)
 ```
 
 After 150 epochs are run, a loss of 0.0328 is yielded:
