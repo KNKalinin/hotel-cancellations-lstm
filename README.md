@@ -323,7 +323,38 @@ The array is converted back to the original value format:
 dtype: float32
 ```
 
-Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**:
+Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
+
+**MDA**
+
+```
+>>> mda(actualpd, ynewpd)
+0.8
+```
+
+**RMSE**
+
+```
+>>> mse = mean_squared_error(actualpd, ynewpd)
+>>> rmse = sqrt(mse)
+>>> print('RMSE: %f' % rmse)
+
+RMSE: 66.823950
+```
+
+**MFE**
+
+```
+>>> forecast_error = (ynewpd-actualpd)
+>>> mean_forecast_error = np.mean(forecast_error)
+>>> mean_forecast_error
+
+-53.43740997314453
+```
+
+Here is a plot of the predicted vs actual cancellations per week:
+
+![predicted-vs-test.png](predicted-vs-test.png)
 
 ## H2 results
 
