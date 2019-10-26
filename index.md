@@ -26,9 +26,13 @@ In the last example, the cancellation data was already sorted into weekly values
 
 Now, an LSTM is used to predict cancellations for both the validation and test sets, and ultimately gauge model performance in terms of mean directional accuracy and root mean square error (RMSE).
 
-Let’s begin the analysis for the H1 dataset. A dataset matrix is created and the data is scaled.
+## Dataset Matrix Formation and Model Configuration
+
+Let’s begin the analysis for the H1 dataset. The first 100 observations from the created time series is called. Then, a dataset matrix is created and the data is scaled.
 
 ```
+df = df[:100]
+
 # Form dataset matrix
 def create_dataset(df, previous=1):
     dataX, dataY = [], []
@@ -36,7 +40,7 @@ def create_dataset(df, previous=1):
         a = df[i:(i+previous), 0]
         dataX.append(a)
         dataY.append(df[i + previous, 0])
-return np.array(dataX), np.array(dataY)
+    return np.array(dataX), np.array(dataY)
 ```
 
 The data is then normalized with MinMaxScaler in order to allow the neural network to interpret it properly:
@@ -51,17 +55,30 @@ df
 Here is a sample of the output:
 
 ```
-array([[0.14285714],
-       [0.16836735],
-       [0.34183673],
-       [0.29081633],
+array([[0.11782946],
+       [0.20465116],
+       [0.32093023],
+       [0.46511628],
+       [0.21395349],
+       [0.44496124],
+       [0.63100775],
+       [0.26356589],
+       [0.29612403],
+       [0.37984496],
        ...
-       [0.78571429],
-       [0.59183673],
-       [0.40306122]])
+       [0.51472868],
+       [0.40620155],
+       [0.31782946],
+       [0.6372093 ],
+       [0.66046512],
+       [0.61395349],
+       [0.84806202],
+       [0.79224806],
+       [0.56434109],
+       [1.        ]])
 ```
 
-The data is partitioned into training and test sets, with the *previous* parameter set to 2 - i.e. the cancellations at week *t* are being regressed against cancellations at *t-2*, and 150 epochs are used to train the model:
+The data is partitioned into training and test sets, with the *previous* parameter set to 5:
 
 ```
 import tensorflow as tf
@@ -69,19 +86,45 @@ from tensorflow.keras import layers
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import LSTM
 
-# Training and Test data partition
+# Training and Validation data partition
 train_size = int(len(df) * 0.8)
-test_size = len(df) - train_size
-train, test = df[0:train_size,:], df[train_size:len(df),:]
+val_size = len(df) - train_size
+train, val = df[0:train_size,:], df[train_size:len(df),:]
 
 # Number of previous
-previous = 2
+previous = 5
 X_train, Y_train = create_dataset(train, previous)
-X_test, Y_test = create_dataset(test, previous)
+X_val, Y_val = create_dataset(val, previous)
+```
 
+When the *previous* parameter is set to this, this essentially means that the value at time *t* (Y_train for the training data), is being predicted using the values *t-1*, *t-2*, *t-3*, *t-4*, and *t-5* (all under X_train).
+
+Here is a sample of the *Y_train* array:
+
+```
+array([0.44496124, 0.63100775, 0.26356589, 0.29612403, 0.37984496,
+       0.48062016, 0.63255814, 0.60930233, 0.46976744, 0.57364341,
+       0.64031008, 0.2       , 0.27596899, 0.07131783, 0.09302326,
+       ...
+       0.4248062 , 0.35968992, 0.20310078, 0.19689922])
+```
+
+Here is a sample of the *X_train* array:
+
+```
+array([[0.11782946, 0.20465116, 0.32093023, 0.46511628, 0.21395349],
+       [0.20465116, 0.32093023, 0.46511628, 0.21395349, 0.44496124],
+       [0.32093023, 0.46511628, 0.21395349, 0.44496124, 0.63100775],
+       ...
+       [0.32868217, 0.26976744, 0.4248062 , 0.35968992, 0.20310078]])
+```       
+
+150 epochs are run:
+
+```
 # reshape input to be [samples, time steps, features]
 X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
-X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
+X_val = np.reshape(X_val, (X_val.shape[0], 1, X_val.shape[1]))
 
 # Generate LSTM network
 model = tf.keras.Sequential()
@@ -91,27 +134,41 @@ model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(X_train, Y_train, epochs=150, batch_size=1, verbose=2)
 ```
 
-After 150 epochs are run, a loss of 0.0328 is yielded:
+Here are some sample results:
 
 ```
+Train on 74 samples
+Epoch 1/150
+74/74 - 1s - loss: 0.2013
+Epoch 2/150
+74/74 - 0s - loss: 0.1040
+Epoch 3/150
+74/74 - 0s - loss: 0.0571
+Epoch 4/150
+74/74 - 0s - loss: 0.0446
+Epoch 5/150
+74/74 - 0s - loss: 0.0426
+...
+Epoch 146/150
+74/74 - 0s - loss: 0.0324
 Epoch 147/150
-89/89 - 0s - loss: 0.0329
+74/74 - 0s - loss: 0.0324
 Epoch 148/150
-89/89 - 0s - loss: 0.0326
+74/74 - 0s - loss: 0.0330
 Epoch 149/150
-89/89 - 0s - loss: 0.0327
+74/74 - 0s - loss: 0.0323
 Epoch 150/150
-89/89 - 0s - loss: 0.0328
+74/74 - 0s - loss: 0.0321
 ```
 
-## Predictions and Accuracy Readings
+## Training and Validation Predictions
 
 Now, let’s generate some predictions.
 
 ```
 # Generate predictions
 trainpred = model.predict(X_train)
-testpred = model.predict(X_test)
+valpred = model.predict(X_val)
 ```
 
 Here is a sample of training and test predictions:
@@ -121,29 +178,34 @@ Here is a sample of training and test predictions:
 ```
 >>> trainpred
 
-array([[0.24308765],
-       [0.29334682],
-       [0.34213442],
-       [0.34916055],
-       [0.36314833],
-       [0.33036196],
-       [0.34789738],
-       [0.3199189 ],
-       [0.39131305]
+array([[0.38761035],
+       [0.37727284],
+       [0.38431337],
 ...
+       [0.27506492],
+       [0.33542088],
+       [0.29014656]], dtype=float32)
 ```
 
 **Test Predictions**
 
 ```
-array([[0.3873779 ],
-       [0.41535857],
-       [0.47876447],
-       [0.38130918],
-       [0.4220309 ],
-       [0.47831023],
-       [0.36525652]
-...
+>>> valpred
+
+array([[0.26687723],
+       [0.2980349 ],
+       [0.36651152],
+       [0.4387382 ],
+       [0.45658803],
+       [0.43241972],
+       [0.40169773],
+       [0.3515324 ],
+       [0.27032438],
+       [0.39643878],
+       [0.49958646],
+       [0.5353131 ],
+       [0.532136  ],
+       [0.3223253 ]], dtype=float32)
 ```
 
 The predictions are converted back to normal values using ```scaler.inverse_transform```, and the training and test score is calculated.
@@ -159,16 +221,16 @@ testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
 print('Test Score: %.2f RMSE' % (testScore))
 ```
 
-**Training and Test Scores**
+**Training and Validation Scores**
 
 ```
-Train Score: 35.26 RMSE
-Test Score: 40.75 RMSE
+Train Score: 37.01 RMSE
+Validation Score: 35.65 RMSE
 ```
 
 Here is a plot of the predictions:
 
-![h1predictions.png](h1predictions.png)
+![h1predictiongraph.png](h1predictiongraph.png)
 
 The test and prediction arrays are reshaped accordingly, and the function for *mean directional accuracy* is defined:
 
@@ -177,25 +239,211 @@ import numpy as np
 
 def mda(actual: np.ndarray, predicted: np.ndarray):
     """ Mean Directional Accuracy """
-return np.mean((np.sign(actual[1:] - actual[:-1]) == np.sign(predicted[1:] - predicted[:-1])).astype(int))
+    return np.mean((np.sign(actual[1:] - actual[:-1]) == np.sign(predicted[1:] - predicted[:-1])).astype(int))
 ```
+
+### Model Results
 
 The mean directional accuracy is now calculated:
 
 ```
->>> mda(Y_test, predictions)
-0.9
+>>> mda(Y_val, predictions)
+0.8571428571428571
 ```
 
-An MDA of **90%** is a significant improvement on the 80% that was previously yielded by the ARIMA model. Let’s see how LSTM performs on the H2 dataset.
+An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
-![h2predictions.png](h2predictions.png)
+As seen above, a validation score of **35.65** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **109**.
+
+## Testing on unseen (test) data
+
+Now that the model has been trained, the next step is to test the predictions of the model on unseen (or test data).
+
+As previously explained, the value at time *t* is being predicted by LSTM using the values *t-1*, *t-2*, *t-3*, *t-4*, and *t-5*.
+
+The last 10 weekly cancellation values in the series are predicted in this case.
 
 ```
->>> mda(Y_test, predictions)
-0.9
+actual = np.array([[161,131,139,150,157,173,140,182,143,100]])
 ```
 
-An MDA of 90% is also yielded on the H2 dataset.
+The previously built model is now used to predict each value using the previous five values in the time series:
 
-In this regard, we can see that LSTM appears to have been slightly more adept than ARIMA in modelling the volatility in hotel cancellations on a week-to-week basis.
+```
+# Test (unseen) predictions
+# (t) and (t-5)
+>>> XNew
+
+array([[130, 202, 117, 152, 131],
+       [202, 117, 152, 131, 161],
+       [117, 152, 131, 161, 131],
+       [152, 131, 161, 131, 139],
+       [131, 161, 131, 139, 150],
+       [161, 131, 139, 150, 157],
+       [131, 139, 150, 157, 173],
+       [139, 150, 157, 173, 140],
+       [150, 157, 173, 140, 182],
+       [157, 173, 140, 182, 143]])
+```
+
+The variables are scaled appropriately, and ```model.predict``` is invoked:
+
+```
+Xnew = scaler.fit_transform(Xnew)
+Xnew
+Xnewformat = np.reshape(Xnew, (Xnew.shape[0], 1, Xnew.shape[1]))
+ynew=model.predict(Xnewformat)
+```
+
+Here is an array of the generated predictions:
+
+```
+array([0.11751928, 0.2840012 , 0.38806236, 0.22630812, 0.22927041,
+       0.4725005 , 0.49718988, 0.62252706, 0.47404462, 0.5425472 ],
+      dtype=float32)
+```
+
+The array is converted back to the original value format:
+
+```
+>>> ynew = ynew * np.abs(maxcancel-mincancel) + np.min(tseries)
+>>> ynewpd=pd.Series(ynew)
+>>> ynewpd
+
+0     38.444008
+1     73.072250
+2     94.716972
+3     61.072090
+4     61.688248
+5    112.280106
+6    117.415497
+7    143.485626
+8    112.601280
+9    126.849823
+dtype: float32
+```
+
+Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
+
+**MDA**
+
+```
+>>> mda(actualpd, ynewpd)
+
+0.8
+```
+
+**RMSE**
+
+```
+>>> mse = mean_squared_error(actualpd, ynewpd)
+>>> rmse = sqrt(mse)
+>>> print('RMSE: %f' % rmse)
+
+RMSE: 66.823950
+```
+
+**MFE**
+
+```
+>>> forecast_error = (ynewpd-actualpd)
+>>> mean_forecast_error = np.mean(forecast_error)
+>>> mean_forecast_error
+
+-53.43740997314453
+```
+
+Here is a plot of the predicted vs actual cancellations per week:
+
+![predicted-vs-test.png](predicted-vs-test.png)
+
+As we can see, the MDA has dropped slightly, and the RMSE has increased to 66. Based on the graph and the mean forecast error, the model has a tendency to underestimate the values for the weekly cancellations; i.e. the forecast is negatively biased.
+
+## H2 results
+
+The same procedure was carried out on the H2 dataset (cancellation data for a separate hotel in Portugal). Here are the results when comparing the predictions to the test set:
+
+**MDA**
+
+```
+>>> mda(actualpd, ynewpd)
+
+0.8
+```
+
+**RMSE**
+
+```
+# mean cancellations per week for this hotel was 280 across the test set
+
+>>> mse = mean_squared_error(actualpd, ynewpd)
+>>> rmse = sqrt(mse)
+>>> print('RMSE: %f' % rmse)
+
+RMSE: 107.746092
+```
+
+**MFE**
+
+```
+>>> forecast_error = (ynewpd-actualpd)
+>>> mean_forecast_error = np.mean(forecast_error)
+>>> mean_forecast_error
+
+31.145895385742186
+```
+
+Again, a plot for the predicted vs actual cancellations per week is generated:
+
+![predicted-vs-test-2.png](predicted-vs-test-2.png)
+
+## Comparison with ARIMA
+
+As mentioned, weekly hotel cancellations were predicted using ARIMA instead of LSTM in a [previous post](https://www.michael-grogan.com/hotel-cancellations/).
+
+Here is a comparison of prediction performance across the H1 and H2 datasets for both models.
+
+### H1 Results
+
+| Reading      | ARIMA | LSTM |
+| ----------- | ----------- | ----------- |
+| MDA      | 0.86       | 0.8       |
+| RMSE   | 57.95        | 66.82        |
+| MFE   | -12.72        | -53.43        |
+
+
+### H2 Results
+
+| Reading      | ARIMA | LSTM |
+| ----------- | ----------- | ----------- |
+| MDA      | 0.86       | 0.8       |
+| RMSE   | 274.07        | 107.74        |
+| MFE   | 156.32        | 31.14       |
+
+What is particularly interesting is that (with the exception of MDA), ARIMA shows better performance for the H1 dataset, while LSTM shows better performance for H2.
+
+Let's compare the two time series once again.
+
+**H1**
+
+![predicted-vs-test.png](predicted-vs-test.png)
+
+**H2**
+
+![predicted-vs-test-2.png](predicted-vs-test-2.png)
+
+It can be observed that the second time series is significantly more volatile than the first (there is more of a "zig-zag" pattern present).
+
+In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy when modelling the smoother trend for the H1 series.
+
+Therefore, this shows that LSTM is not necessarily a better model than ARIMA simply because it is a machine learning model. Rather, ARIMA and LSTM have been shown to yield predictive accuracy under different circumstances - and in this case LSTM has been more adept at modelling the H2 (more volatile) time series.
+
+## Conclusion
+
+The above examples have illustrated:
+
+- How to construct an LSTM model
+- Methods to gauge error and accuracy for LSTM model predictions
+- Comparison of LSTM model performance vs ARIMA
+
+Many thanks for your time!
