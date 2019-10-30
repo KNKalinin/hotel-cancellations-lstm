@@ -420,7 +420,11 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | RMSE   | 274.07        | 74.80        |
 | MFE   | 156.32        | 28.52       |
 
-What is particularly interesting is that (with the exception of MDA), ARIMA shows better performance for the H1 dataset, while LSTM shows better performance for H2.
+Based on RMSE, LSTM shows superior performance.
+
+Interestingly, MDA remains slightly higher when predicting using ARIMA, while MFE shows better performance on H1 when using ARIMA.
+
+In this regard, the "no free lunch theorem" applies in this case. In other words, both models have shown superior performance across different time series and metrics, and it would be erroneous to simply choose one over another.
 
 Let's compare the two time series once again.
 
@@ -434,7 +438,7 @@ Let's compare the two time series once again.
 
 It can be observed that the second time series is significantly more volatile than the first (there is more of a "zig-zag" pattern present).
 
-In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy when modelling the smoother trend for the H1 series.
+In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy on an MFE basis when modelling the smoother trend for the H1 series.
 
 Therefore, this shows that LSTM is not necessarily a better model than ARIMA simply because it is a machine learning model. Rather, ARIMA and LSTM have been shown to yield predictive accuracy under different circumstances - and in this case LSTM has been more adept at modelling the H2 (more volatile) time series.
 
