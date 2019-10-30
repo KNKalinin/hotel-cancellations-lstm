@@ -289,7 +289,7 @@ array([[130, 202, 117, 152, 131],
 The variables are scaled appropriately, and ```model.predict``` is invoked:
 
 ```
-Xnew = scaler.fit_transform(Xnew)
+Xnew = scaler.transform(Xnew)
 Xnew
 Xnewformat = np.reshape(Xnew, (Xnew.shape[0], 1, Xnew.shape[1]))
 ynew=model.predict(Xnewformat)
@@ -340,7 +340,7 @@ Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 66.823950
+RMSE: 31.988027
 ```
 
 **MFE**
@@ -350,7 +350,7 @@ RMSE: 66.823950
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
--53.43740997314453
+-22.05543746948242
 ```
 
 Here is a plot of the predicted vs actual cancellations per week:
@@ -380,7 +380,7 @@ The same procedure was carried out on the H2 dataset (cancellation data for a se
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 107.746092
+RMSE: 74.800827
 ```
 
 **MFE**
@@ -390,7 +390,7 @@ RMSE: 107.746092
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
-31.145895385742186
+28.518788146972657
 ```
 
 Again, a plot for the predicted vs actual cancellations per week is generated:
@@ -408,8 +408,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 57.95        | 66.82        |
-| MFE   | -12.72        | -53.43        |
+| RMSE   | 57.95        | 31.98        |
+| MFE   | -12.72        | -22.05        |
 
 
 ### H2 Results
@@ -417,10 +417,14 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 274.07        | 107.74        |
-| MFE   | 156.32        | 31.14       |
+| RMSE   | 274.07        | 74.80        |
+| MFE   | 156.32        | 28.52       |
 
-What is particularly interesting is that (with the exception of MDA), ARIMA shows better performance for the H1 dataset, while LSTM shows better performance for H2.
+Based on the RMSE measure, LSTM shows superior performance.
+
+Interestingly, MDA remains slightly higher when predicting using ARIMA, while MFE shows better performance on H1 when using ARIMA.
+
+In this regard, the "no free lunch theorem" applies in this case. In other words, both models have shown superior performance across different time series and metrics, and it would be erroneous to simply choose one over another.
 
 Let's compare the two time series once again.
 
@@ -434,7 +438,7 @@ Let's compare the two time series once again.
 
 It can be observed that the second time series is significantly more volatile than the first (there is more of a "zig-zag" pattern present).
 
-In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy when modelling the smoother trend for the H1 series.
+In this regard, LSTM has been more adept at modelling the volatility for the second time series, while the ARIMA model has shown better predictive accuracy on an MFE basis when modelling the smoother trend for the H1 series.
 
 Therefore, this shows that LSTM is not necessarily a better model than ARIMA simply because it is a machine learning model. Rather, ARIMA and LSTM have been shown to yield predictive accuracy under different circumstances - and in this case LSTM has been more adept at modelling the H2 (more volatile) time series.
 
