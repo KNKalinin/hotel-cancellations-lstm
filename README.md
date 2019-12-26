@@ -358,7 +358,7 @@ The same procedure was carried out on the H2 dataset (cancellation data for a se
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 74.800827
+RMSE: 95.281377
 ```
 
 **MFE**
@@ -368,7 +368,7 @@ RMSE: 74.800827
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
-28.518788146972657
+38.65366058349609
 ```
 
 Again, a plot for the predicted vs actual cancellations per week is generated:
