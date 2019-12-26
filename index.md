@@ -55,27 +55,21 @@ df
 Here is a sample of the output:
 
 ```
-array([[0.11782946],
-       [0.20465116],
-       [0.32093023],
-       [0.46511628],
-       [0.21395349],
-       [0.44496124],
-       [0.63100775],
-       [0.26356589],
-       [0.29612403],
-       [0.37984496],
-       ...
-       [0.51472868],
-       [0.40620155],
-       [0.31782946],
-       [0.6372093 ],
-       [0.66046512],
-       [0.61395349],
-       [0.84806202],
-       [0.79224806],
-       [0.56434109],
-       [1.        ]])
+array([[0.12980769],
+       [0.16346154],
+       [0.35096154],
+       [0.28846154],
+       [0.41826923],
+       [0.25961538],
+       [0.39423077],
+...
+       [0.45673077],
+       [0.79326923],
+       [0.43269231],
+       [0.44230769],
+       [0.73557692],
+       [0.44230769],
+       [0.3125    ]])
 ```
 
 The data is partitioned into training and test sets, with the *previous* parameter set to 5:
@@ -102,24 +96,26 @@ When the *previous* parameter is set to this, this essentially means that the va
 Here is a sample of the *Y_train* array:
 
 ```
-array([0.44496124, 0.63100775, 0.26356589, 0.29612403, 0.37984496,
-       0.48062016, 0.63255814, 0.60930233, 0.46976744, 0.57364341,
-       0.64031008, 0.2       , 0.27596899, 0.07131783, 0.09302326,
-       ...
-       0.4248062 , 0.35968992, 0.20310078, 0.19689922])
+array([0.25961538, 0.39423077, 0.26442308, 0.35576923, 0.64423077,
+       0.29807692, 0.82692308, 0.52403846, 0.37019231, 0.88461538,
+       0.00961538, 0.38461538, 0.14423077, 0.14903846, 0.19230769,
+...
+       0.28846154, 0.20673077, 0.10576923, 0.33653846])
 ```
 
 Here is a sample of the *X_train* array:
 
 ```
-array([[0.11782946, 0.20465116, 0.32093023, 0.46511628, 0.21395349],
-       [0.20465116, 0.32093023, 0.46511628, 0.21395349, 0.44496124],
-       [0.32093023, 0.46511628, 0.21395349, 0.44496124, 0.63100775],
-       ...
-       [0.32868217, 0.26976744, 0.4248062 , 0.35968992, 0.20310078]])
+array([[0.12980769, 0.16346154, 0.35096154, 0.28846154, 0.41826923],
+       [0.16346154, 0.35096154, 0.28846154, 0.41826923, 0.25961538],
+       [0.35096154, 0.28846154, 0.41826923, 0.25961538, 0.39423077],
+       [0.28846154, 0.41826923, 0.25961538, 0.39423077, 0.26442308],
+       [0.41826923, 0.25961538, 0.39423077, 0.26442308, 0.35576923],
+...
+       [0.12019231, 0.21634615, 0.28846154, 0.20673077, 0.10576923]])
 ```       
 
-150 epochs are run:
+20 epochs are run:
 
 ```
 # reshape input to be [samples, time steps, features]
@@ -131,34 +127,24 @@ model = tf.keras.Sequential()
 model.add(LSTM(4, input_shape=(1, previous)))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(X_train, Y_train, epochs=150, batch_size=1, verbose=2)
+model.fit(X_train, Y_train, epochs=20, batch_size=1, verbose=2)
 ```
 
 Here are some sample results:
 
 ```
 Train on 74 samples
-Epoch 1/150
-74/74 - 1s - loss: 0.2013
-Epoch 2/150
-74/74 - 0s - loss: 0.1040
-Epoch 3/150
-74/74 - 0s - loss: 0.0571
-Epoch 4/150
-74/74 - 0s - loss: 0.0446
-Epoch 5/150
-74/74 - 0s - loss: 0.0426
+Epoch 1/20
+74/74 - 1s - loss: 0.1607
+Epoch 2/20
+74/74 - 0s - loss: 0.0786
+Epoch 3/20
+74/74 - 0s - loss: 0.0480
 ...
-Epoch 146/150
-74/74 - 0s - loss: 0.0324
-Epoch 147/150
-74/74 - 0s - loss: 0.0324
-Epoch 148/150
-74/74 - 0s - loss: 0.0330
-Epoch 149/150
-74/74 - 0s - loss: 0.0323
-Epoch 150/150
-74/74 - 0s - loss: 0.0321
+Epoch 19/20
+74/74 - 0s - loss: 0.0376
+Epoch 20/20
+74/74 - 0s - loss: 0.0376
 ```
 
 ## Training and Validation Predictions
@@ -177,14 +163,13 @@ Here is a sample of training and test predictions:
 
 ```
 >>> trainpred
-
-array([[0.38761035],
-       [0.37727284],
-       [0.38431337],
+array([[0.34197864],
+       [0.33438686],
+       [0.35549188],
 ...
-       [0.27506492],
-       [0.33542088],
-       [0.29014656]], dtype=float32)
+       [0.30861905],
+       [0.3127793 ],
+       [0.2686744 ]], dtype=float32)
 ```
 
 **Test Predictions**
@@ -192,20 +177,13 @@ array([[0.38761035],
 ```
 >>> valpred
 
-array([[0.26687723],
-       [0.2980349 ],
-       [0.36651152],
-       [0.4387382 ],
-       [0.45658803],
-       [0.43241972],
-       [0.40169773],
-       [0.3515324 ],
-       [0.27032438],
-       [0.39643878],
-       [0.49958646],
-       [0.5353131 ],
-       [0.532136  ],
-       [0.3223253 ]], dtype=float32)
+array([[0.26945132],
+       [0.29406473],
+       [0.33632928],
+...
+       [0.4605905 ],
+       [0.44819197],
+       [0.41474044]], dtype=float32)
 ```
 
 The predictions are converted back to normal values using ```scaler.inverse_transform```, and the training and test score is calculated.
@@ -224,8 +202,8 @@ print('Test Score: %.2f RMSE' % (testScore))
 **Training and Validation Scores**
 
 ```
-Train Score: 37.01 RMSE
-Validation Score: 35.65 RMSE
+Train Score: 39.88 RMSE
+Validation Score: 35.97 RMSE
 ```
 
 Here is a plot of the predictions:
@@ -253,7 +231,7 @@ The mean directional accuracy is now calculated:
 
 An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
-As seen above, a validation score of **35.65** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **109**.
+As seen above, a validation score of **39.88** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **35.97**.
 
 ## Testing on unseen (test) data
 
@@ -298,8 +276,8 @@ ynew=model.predict(Xnewformat)
 Here is an array of the generated predictions:
 
 ```
-array([0.11751928, 0.2840012 , 0.38806236, 0.22630812, 0.22927041,
-       0.4725005 , 0.49718988, 0.62252706, 0.47404462, 0.5425472 ],
+array([0.2101534 , 0.36709732, 0.30984816, 0.28579453, 0.27478257,
+       0.4194749 , 0.46542737, 0.48654664, 0.48778093, 0.5080424 ],
       dtype=float32)
 ```
 
@@ -310,16 +288,16 @@ The array is converted back to the original value format:
 >>> ynewpd=pd.Series(ynew)
 >>> ynewpd
 
-0     38.444008
-1     73.072250
-2     94.716972
-3     61.072090
-4     61.688248
-5    112.280106
-6    117.415497
-7    143.485626
-8    112.601280
-9    126.849823
+0     57.711906
+1     90.356239
+2     78.448418
+3     73.445267
+4     71.154770
+5    101.250778
+6    110.808891
+7    115.201698
+8    115.458435
+9    119.672821
 dtype: float32
 ```
 
@@ -340,7 +318,7 @@ Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 31.988027
+RMSE: 63.894063
 ```
 
 **MFE**
@@ -350,7 +328,7 @@ RMSE: 31.988027
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
--22.05543746948242
+-54.24907760620117
 ```
 
 Here is a plot of the predicted vs actual cancellations per week:
@@ -380,7 +358,7 @@ The same procedure was carried out on the H2 dataset (cancellation data for a se
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 74.800827
+RMSE: 95.281377
 ```
 
 **MFE**
@@ -390,7 +368,7 @@ RMSE: 74.800827
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
-28.518788146972657
+38.65366058349609
 ```
 
 Again, a plot for the predicted vs actual cancellations per week is generated:
@@ -408,8 +386,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 57.95        | 31.98        |
-| MFE   | -12.72        | -22.05        |
+| RMSE   | 57.95        | 63.89        |
+| MFE   | -12.72        | -54.25        |
 
 
 ### H2 Results
@@ -417,8 +395,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 274.07        | 74.80        |
-| MFE   | 156.32        | 28.52       |
+| RMSE   | 274.07        | 95.28        |
+| MFE   | 156.32        | 38.65       |
 
 Based on the RMSE measure, LSTM shows superior performance.
 
