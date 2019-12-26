@@ -398,7 +398,7 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | RMSE   | 274.07        | 95.28        |
 | MFE   | 156.32        | 38.65       |
 
-Based on the RMSE measure, LSTM shows superior performance.
+Based on the RMSE measure, LSTM shows superior performance for H2.
 
 Interestingly, MDA remains slightly higher when predicting using ARIMA, while MFE shows better performance on H1 when using ARIMA.
 
