@@ -386,8 +386,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 57.95        | 31.98        |
-| MFE   | -12.72        | -22.05        |
+| RMSE   | 57.95        | 63.89        |
+| MFE   | -12.72        | -54.25        |
 
 
 ### H2 Results
@@ -395,8 +395,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 274.07        | 74.80        |
-| MFE   | 156.32        | 28.52       |
+| RMSE   | 274.07        | 95.28        |
+| MFE   | 156.32        | 38.65       |
 
 Based on the RMSE measure, LSTM shows superior performance.
 
