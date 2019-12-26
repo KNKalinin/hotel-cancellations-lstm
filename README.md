@@ -163,14 +163,13 @@ Here is a sample of training and test predictions:
 
 ```
 >>> trainpred
-
-array([[0.38761035],
-       [0.37727284],
-       [0.38431337],
+array([[0.34197864],
+       [0.33438686],
+       [0.35549188],
 ...
-       [0.27506492],
-       [0.33542088],
-       [0.29014656]], dtype=float32)
+       [0.30861905],
+       [0.3127793 ],
+       [0.2686744 ]], dtype=float32)
 ```
 
 **Test Predictions**
@@ -178,20 +177,13 @@ array([[0.38761035],
 ```
 >>> valpred
 
-array([[0.26687723],
-       [0.2980349 ],
-       [0.36651152],
-       [0.4387382 ],
-       [0.45658803],
-       [0.43241972],
-       [0.40169773],
-       [0.3515324 ],
-       [0.27032438],
-       [0.39643878],
-       [0.49958646],
-       [0.5353131 ],
-       [0.532136  ],
-       [0.3223253 ]], dtype=float32)
+array([[0.26945132],
+       [0.29406473],
+       [0.33632928],
+...
+       [0.4605905 ],
+       [0.44819197],
+       [0.41474044]], dtype=float32)
 ```
 
 The predictions are converted back to normal values using ```scaler.inverse_transform```, and the training and test score is calculated.
