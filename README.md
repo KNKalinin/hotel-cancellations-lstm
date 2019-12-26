@@ -202,8 +202,8 @@ print('Test Score: %.2f RMSE' % (testScore))
 **Training and Validation Scores**
 
 ```
-Train Score: 37.01 RMSE
-Validation Score: 35.65 RMSE
+Train Score: 39.88 RMSE
+Validation Score: 35.97 RMSE
 ```
 
 Here is a plot of the predictions:
@@ -276,8 +276,8 @@ ynew=model.predict(Xnewformat)
 Here is an array of the generated predictions:
 
 ```
-array([0.11751928, 0.2840012 , 0.38806236, 0.22630812, 0.22927041,
-       0.4725005 , 0.49718988, 0.62252706, 0.47404462, 0.5425472 ],
+array([0.2101534 , 0.36709732, 0.30984816, 0.28579453, 0.27478257,
+       0.4194749 , 0.46542737, 0.48654664, 0.48778093, 0.5080424 ],
       dtype=float32)
 ```
 
@@ -288,16 +288,16 @@ The array is converted back to the original value format:
 >>> ynewpd=pd.Series(ynew)
 >>> ynewpd
 
-0     38.444008
-1     73.072250
-2     94.716972
-3     61.072090
-4     61.688248
-5    112.280106
-6    117.415497
-7    143.485626
-8    112.601280
-9    126.849823
+0     57.711906
+1     90.356239
+2     78.448418
+3     73.445267
+4     71.154770
+5    101.250778
+6    110.808891
+7    115.201698
+8    115.458435
+9    119.672821
 dtype: float32
 ```
 
@@ -318,7 +318,7 @@ Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 31.988027
+RMSE: 63.894063
 ```
 
 **MFE**
@@ -328,7 +328,7 @@ RMSE: 31.988027
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
--22.05543746948242
+-54.24907760620117
 ```
 
 Here is a plot of the predicted vs actual cancellations per week:
