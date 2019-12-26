@@ -231,7 +231,7 @@ The mean directional accuracy is now calculated:
 
 An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
-As seen above, a validation score of **35.65** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **109**.
+As seen above, a validation score of **39.88** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **35.97**.
 
 ## Testing on unseen (test) data
 
