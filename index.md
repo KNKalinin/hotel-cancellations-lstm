@@ -27,6 +27,21 @@ In the last example, the cancellation data was already sorted into weekly values
 
 Now, an LSTM is used to predict cancellations for both the validation and test sets, and ultimately gauge model performance in terms of mean directional accuracy and root mean square error (RMSE).
 
+Here is a sample of the time series:
+
+![time-series](time-series.png)
+
+The Dickey-Fuller test was used to test for stationarity. With a p-value of 0.05, a unit root is not indicated to be present and the alternative hypothesis of stationarity is supported.
+
+```
+ADF Statistic: -2.914054
+p-value: 0.043738
+Critical Values:
+	1%: -3.490
+	5%: -2.888
+	10%: -2.581
+```
+
 ## Dataset Matrix Formation and Model Configuration
 
 Let’s begin the analysis for the H1 dataset. The first 100 observations from the created time series is called. Then, a dataset matrix is created and the data is scaled.
@@ -134,19 +149,26 @@ model.fit(X_train, Y_train, epochs=20, batch_size=1, verbose=2)
 Here are some sample results:
 
 ```
-Train on 74 samples
+Train on 59 samples, validate on 15 samples
 Epoch 1/20
-74/74 - 1s - loss: 0.1607
+59/59 - 2s - loss: 0.1268 - val_loss: 0.0809
 Epoch 2/20
-74/74 - 0s - loss: 0.0786
+59/59 - 0s - loss: 0.0701 - val_loss: 0.0429
 Epoch 3/20
-74/74 - 0s - loss: 0.0480
+59/59 - 0s - loss: 0.0492 - val_loss: 0.0315
 ...
+Epoch 18/20
+59/59 - 0s - loss: 0.0384 - val_loss: 0.0312
 Epoch 19/20
-74/74 - 0s - loss: 0.0376
+59/59 - 0s - loss: 0.0381 - val_loss: 0.0318
 Epoch 20/20
-74/74 - 0s - loss: 0.0376
+59/59 - 0s - loss: 0.0379 - val_loss: 0.0314
+dict_keys(['loss', 'val_loss'])
 ```
+
+This is a visual representation of the training and validation loss:
+
+![model-loss-H1](model-loss-H1.png)
 
 ## Training and Validation Predictions
 
@@ -164,13 +186,13 @@ Here is a sample of training and test predictions:
 
 ```
 >>> trainpred
-array([[0.34197864],
-       [0.33438686],
-       [0.35549188],
+array([[0.3734436 ],
+       [0.3474584 ],
+       [0.35780156],
 ...
-       [0.30861905],
-       [0.3127793 ],
-       [0.2686744 ]], dtype=float32)
+       [0.2811486 ],
+       [0.3259096 ],
+       [0.26670212]], dtype=float32)
 ```
 
 **Test Predictions**
@@ -178,13 +200,13 @@ array([[0.34197864],
 ```
 >>> valpred
 
-array([[0.26945132],
-       [0.29406473],
-       [0.33632928],
+array([[0.26329553],
+       [0.30377024],
+       [0.3673252 ],
 ...
-       [0.4605905 ],
-       [0.44819197],
-       [0.41474044]], dtype=float32)
+       [0.51859236],
+       [0.45417845],
+       [0.37038326]], dtype=float32)
 ```
 
 The predictions are converted back to normal values using ```scaler.inverse_transform```, and the training and test score is calculated.
@@ -203,8 +225,8 @@ print('Test Score: %.2f RMSE' % (testScore))
 **Training and Validation Scores**
 
 ```
-Train Score: 39.88 RMSE
-Validation Score: 35.97 RMSE
+Train Score: 39.60 RMSE
+Validation Score: 36.61 RMSE
 ```
 
 Here is a plot of the predictions:
@@ -232,7 +254,7 @@ The mean directional accuracy is now calculated:
 
 An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
-As seen above, a validation score of **39.88** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **35.97**.
+As seen above, a validation score of **36.61** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **35.97**.
 
 ## Testing on unseen (test) data
 
@@ -277,8 +299,8 @@ ynew=model.predict(Xnewformat)
 Here is an array of the generated predictions:
 
 ```
-array([0.2101534 , 0.36709732, 0.30984816, 0.28579453, 0.27478257,
-       0.4194749 , 0.46542737, 0.48654664, 0.48778093, 0.5080424 ],
+array([0.14147764, 0.38846755, 0.33262578, 0.30260864, 0.24446128,
+       0.44191664, 0.52529824, 0.5520171 , 0.4564184 , 0.5267743 ],
       dtype=float32)
 ```
 
@@ -289,16 +311,16 @@ The array is converted back to the original value format:
 >>> ynewpd=pd.Series(ynew)
 >>> ynewpd
 
-0     57.711906
-1     90.356239
-2     78.448418
-3     73.445267
-4     71.154770
-5    101.250778
-6    110.808891
-7    115.201698
-8    115.458435
-9    119.672821
+0     43.427349
+1     94.801254
+2     83.186165
+3     76.942596
+4     64.847946
+5    105.918663
+6    123.262032
+7    128.819550
+8    108.935028
+9    123.569054
 dtype: float32
 ```
 
@@ -319,7 +341,7 @@ Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 63.894063
+RMSE: 64.344693
 ```
 
 **MFE**
@@ -329,7 +351,7 @@ RMSE: 63.894063
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
--54.24907760620117
+-52.22903633117676
 ```
 
 Here is a plot of the predicted vs actual cancellations per week:
@@ -359,7 +381,7 @@ The same procedure was carried out on the H2 dataset (cancellation data for a se
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 95.281377
+RMSE: 92.000303
 ```
 
 **MFE**
@@ -369,7 +391,7 @@ RMSE: 95.281377
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
-38.65366058349609
+29.195832824707033
 ```
 
 Again, a plot for the predicted vs actual cancellations per week is generated:
@@ -387,8 +409,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 57.95        | 63.89        |
-| MFE   | -12.72        | -54.25        |
+| RMSE   | 57.95        | 64.34       |
+| MFE   | -12.72        | -52.22        |
 
 
 ### H2 Results
@@ -396,8 +418,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 274.07        | 95.28        |
-| MFE   | 156.32        | 38.65       |
+| RMSE   | 274.07        | 92.00        |
+| MFE   | 156.32        | 29.19       |
 
 Based on the RMSE measure, LSTM shows superior performance for H2.
 
