@@ -136,18 +136,18 @@ Here are some sample results:
 ```
 Train on 59 samples, validate on 15 samples
 Epoch 1/20
-59/59 - 2s - loss: 0.2406 - val_loss: 0.1772
+59/59 - 2s - loss: 0.1268 - val_loss: 0.0809
 Epoch 2/20
-59/59 - 0s - loss: 0.1610 - val_loss: 0.1335
+59/59 - 0s - loss: 0.0701 - val_loss: 0.0429
 Epoch 3/20
-59/59 - 0s - loss: 0.1503 - val_loss: 0.0999
+59/59 - 0s - loss: 0.0492 - val_loss: 0.0315
 ...
 Epoch 18/20
-59/59 - 0s - loss: 0.0568 - val_loss: 0.0349
+59/59 - 0s - loss: 0.0384 - val_loss: 0.0312
 Epoch 19/20
-59/59 - 0s - loss: 0.0535 - val_loss: 0.0346
+59/59 - 0s - loss: 0.0381 - val_loss: 0.0318
 Epoch 20/20
-59/59 - 0s - loss: 0.0511 - val_loss: 0.0346
+59/59 - 0s - loss: 0.0379 - val_loss: 0.0314
 dict_keys(['loss', 'val_loss'])
 ```
 
