@@ -134,19 +134,26 @@ model.fit(X_train, Y_train, epochs=20, batch_size=1, verbose=2)
 Here are some sample results:
 
 ```
-Train on 74 samples
+Train on 59 samples, validate on 15 samples
 Epoch 1/20
-74/74 - 1s - loss: 0.1607
+59/59 - 2s - loss: 0.2406 - val_loss: 0.1772
 Epoch 2/20
-74/74 - 0s - loss: 0.0786
+59/59 - 0s - loss: 0.1610 - val_loss: 0.1335
 Epoch 3/20
-74/74 - 0s - loss: 0.0480
+59/59 - 0s - loss: 0.1503 - val_loss: 0.0999
 ...
+Epoch 18/20
+59/59 - 0s - loss: 0.0568 - val_loss: 0.0349
 Epoch 19/20
-74/74 - 0s - loss: 0.0376
+59/59 - 0s - loss: 0.0535 - val_loss: 0.0346
 Epoch 20/20
-74/74 - 0s - loss: 0.0376
+59/59 - 0s - loss: 0.0511 - val_loss: 0.0346
+dict_keys(['loss', 'val_loss'])
 ```
+
+This is a visual representation of the training and validation loss:
+
+![model-loss-H1](model-loss-H1.png)
 
 ## Training and Validation Predictions
 
