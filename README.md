@@ -171,13 +171,13 @@ Here is a sample of training and test predictions:
 
 ```
 >>> trainpred
-array([[0.3576718 ],
-       [0.3463737 ],
-       [0.35651892],
+array([[0.3734436 ],
+       [0.3474584 ],
+       [0.35780156],
 ...
-       [0.32899544],
-       [0.34029365],
-       [0.3505136 ]], dtype=float32)
+       [0.2811486 ],
+       [0.3259096 ],
+       [0.26670212]], dtype=float32)
 ```
 
 **Test Predictions**
@@ -185,14 +185,13 @@ array([[0.3576718 ],
 ```
 >>> valpred
 
-array([[0.33939266],
-       [0.3475448 ],
-       [0.34271377],
-       [0.35698226],
+array([[0.26329553],
+       [0.30377024],
+       [0.3673252 ],
 ...
-       [0.35084218],
-       [0.37368044],
-       [0.35420915]], dtype=float32)
+       [0.51859236],
+       [0.45417845],
+       [0.37038326]], dtype=float32)
 ```
 
 The predictions are converted back to normal values using ```scaler.inverse_transform```, and the training and test score is calculated.
@@ -211,8 +210,8 @@ print('Test Score: %.2f RMSE' % (testScore))
 **Training and Validation Scores**
 
 ```
-Train Score: 45.25 RMSE
-Validation Score: 39.35 RMSE
+Train Score: 39.60 RMSE
+Validation Score: 36.61 RMSE
 ```
 
 Here is a plot of the predictions:
@@ -240,7 +239,7 @@ The mean directional accuracy is now calculated:
 
 An MDA of **86%** is obtained, meaning that the model correctly predicts the direction of the actual weekly cancellation trends 86% of the time.
 
-As seen above, a validation score of **39.88** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **35.97**.
+As seen above, a validation score of **36.61** RMSE was also obtained. RMSE is a measure of the deviation in cancellations from the actual values, and assumes the same numerical format as the same. The mean weekly cancellations across the validation data was **35.97**.
 
 ## Testing on unseen (test) data
 
@@ -285,8 +284,8 @@ ynew=model.predict(Xnewformat)
 Here is an array of the generated predictions:
 
 ```
-array([0.2101534 , 0.36709732, 0.30984816, 0.28579453, 0.27478257,
-       0.4194749 , 0.46542737, 0.48654664, 0.48778093, 0.5080424 ],
+array([0.14147764, 0.38846755, 0.33262578, 0.30260864, 0.24446128,
+       0.44191664, 0.52529824, 0.5520171 , 0.4564184 , 0.5267743 ],
       dtype=float32)
 ```
 
@@ -297,16 +296,16 @@ The array is converted back to the original value format:
 >>> ynewpd=pd.Series(ynew)
 >>> ynewpd
 
-0     57.711906
-1     90.356239
-2     78.448418
-3     73.445267
-4     71.154770
-5    101.250778
-6    110.808891
-7    115.201698
-8    115.458435
-9    119.672821
+0     43.427349
+1     94.801254
+2     83.186165
+3     76.942596
+4     64.847946
+5    105.918663
+6    123.262032
+7    128.819550
+8    108.935028
+9    123.569054
 dtype: float32
 ```
 
@@ -327,7 +326,7 @@ Here is the calculated **MDA**, **RMSE**, and **MFE (mean forecast error)**.
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 63.894063
+RMSE: 64.344693
 ```
 
 **MFE**
@@ -337,7 +336,7 @@ RMSE: 63.894063
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
--54.24907760620117
+-52.22903633117676
 ```
 
 Here is a plot of the predicted vs actual cancellations per week:
@@ -367,7 +366,7 @@ The same procedure was carried out on the H2 dataset (cancellation data for a se
 >>> rmse = sqrt(mse)
 >>> print('RMSE: %f' % rmse)
 
-RMSE: 95.281377
+RMSE: 92.000303
 ```
 
 **MFE**
@@ -377,7 +376,7 @@ RMSE: 95.281377
 >>> mean_forecast_error = np.mean(forecast_error)
 >>> mean_forecast_error
 
-38.65366058349609
+29.195832824707033
 ```
 
 Again, a plot for the predicted vs actual cancellations per week is generated:
@@ -395,8 +394,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 57.95        | 63.89        |
-| MFE   | -12.72        | -54.25        |
+| RMSE   | 57.95        | 64.34       |
+| MFE   | -12.72        | -52.22        |
 
 
 ### H2 Results
@@ -404,8 +403,8 @@ Here is a comparison of prediction performance across the H1 and H2 datasets for
 | Reading      | ARIMA | LSTM |
 | ----------- | ----------- | ----------- |
 | MDA      | 0.86       | 0.8       |
-| RMSE   | 274.07        | 95.28        |
-| MFE   | 156.32        | 38.65       |
+| RMSE   | 274.07        | 92.00        |
+| MFE   | 156.32        | 29.19       |
 
 Based on the RMSE measure, LSTM shows superior performance for H2.
 
