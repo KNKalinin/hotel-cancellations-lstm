@@ -31,6 +31,17 @@ Here is a sample of the time series:
 
 ![time-series](time-series.png)
 
+The Dickey-Fuller test was used to test for stationarity. With a p-value of 0.05, a unit root is not indicated to be present and the alternative hypothesis of stationarity is supported.
+
+```
+ADF Statistic: -2.914054
+p-value: 0.043738
+Critical Values:
+	1%: -3.490
+	5%: -2.888
+	10%: -2.581
+```
+
 ## Dataset Matrix Formation and Model Configuration
 
 Let’s begin the analysis for the H1 dataset. The first 100 observations from the created time series is called. Then, a dataset matrix is created and the data is scaled.
